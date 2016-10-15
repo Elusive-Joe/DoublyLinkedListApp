@@ -91,18 +91,26 @@ namespace DoublyLinkedListApp
         private static void Display(DoublyLinkedList pList, bool order)
         {
             Console.Clear();
-            if (order)
+            if (!pList.IsEmpty)
             {
-                Console.WriteLine("Вывод в прямом порядке:\n");
-                pList.Display();
+                if (order)
+                {
+                    Console.WriteLine("Вывод в прямом порядке:\n");
+                    pList.Display();
+                }
+                else
+                {
+                    Console.WriteLine("Вывод в обратном порядке:\n");
+                    pList.ReverseDisplay();
+                }
+                Console.WriteLine("\nDone. Press any key");
+                Console.ReadKey(true);
             }
             else
             {
-                Console.WriteLine("Вывод в обратном порядке:\n");
-                pList.ReverseDisplay();
+                Console.WriteLine("Список пуст");
+                Console.ReadKey(true);
             }
-            Console.WriteLine("\nDone. Press any key");
-            Console.ReadKey(true);
         }
 
         //Добавть Person
@@ -122,7 +130,7 @@ namespace DoublyLinkedListApp
                     while (!uint.TryParse(str, out ind)) //должно быть число
                     {
                         Console.WriteLine("\nНеверный ввод");
-                        Console.Write("Индекс: ");
+                        Console.Write("Индекс (от 1 до {0}): ", personsList.Count + 1);
                         str = Console.ReadLine();
                     }
                 } while ((ind<1)||(ind > personsList.Count +1)); //от 1 до размер списка+1
@@ -186,7 +194,7 @@ namespace DoublyLinkedListApp
                     while (!uint.TryParse(str, out ind))
                     {
                         Console.WriteLine("\nНеверный ввод");//проверяем, что это число,
-                        Console.Write("Индекс: ");
+                        Console.Write("\nИндекс (от 1 до {0}): ", pList.Count);
                         str = Console.ReadLine();
                     }
                 } while ((ind < 1) || (ind > pList.Count));//не выходящее за размер списка.
@@ -228,6 +236,7 @@ namespace DoublyLinkedListApp
             }
             
         }
+        
         //Записать в файл или считать из файла
         private static string Wtf(string dir, DoublyLinkedList pList, bool write)//true - пишем, false - читаем
         {

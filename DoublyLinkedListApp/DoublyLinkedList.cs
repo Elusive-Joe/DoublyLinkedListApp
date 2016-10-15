@@ -138,12 +138,12 @@ namespace DoublyLinkedListApp
         //вывести в прямом порядке
         public void Display()
         {
-            if (First == null)
+            /*if (First == null) //Решил проверять это в основной программе
             {
                 Console.WriteLine("Doubly Linked List is empty");
                 Console.ReadKey();
                 return;
-            }
+            }*/
             Current = First;
             uint count = 1;
             while (Current != null)
@@ -158,12 +158,12 @@ namespace DoublyLinkedListApp
         //вывести в обратном порядке
         public void ReverseDisplay()
         {
-            if (First == null)
+            /*if (First == null) //Решил проверять это в основной программе
             {
                 Console.WriteLine("Doubly Linked List is empty");
                 Console.ReadKey();
                 return;
-            }
+            }*/
 
             Current = GetLast();
             uint count = 1;
