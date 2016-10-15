@@ -329,49 +329,49 @@ namespace DoublyLinkedListApp
             }
         }
 
-        //Сортировка (пузырьком)
+        //Сортировка пузырьком. (По-моему, довольно трудно понять сортировку, если нет индексов)
         public void Sort()
         {
             Person tmp;
-            bool bNotSorted = true;
-            bool bSwapped;
-            Current = First;
-            while (bNotSorted)
+            bool bNotSorted = true; //не сортирован
+            bool bSwapped; //была смена
+            Current = First; //начинаем с начала
+            while (bNotSorted) //пока список не сортирован
             {
-                bNotSorted = false;
-                Current = First;
-                while (Current.Next != null)
+                bNotSorted = false; //сейчас не известно. Может быть уже сортирован
+                Current = First; //начинаем с начала
+                while (Current.Next != null) //пока не достигнем последнего элемента
                 {
-                    bSwapped = false;
-                    if (String.Compare(Current.LastName, Current.Next.LastName) > 0)
+                    bSwapped = false; //ещё не меняли
+                    if (String.Compare(Current.LastName, Current.Next.LastName) > 0) //проверяем то поле, по которому сортируем
                     {
-                        bNotSorted = true;
-                        bSwapped = true;
-                        if (Current != First)
+                        bNotSorted = true; //оказывается, список не сортирован
+                        bSwapped = true; //смена произошла, вернее, произойдёт ниже.
+                        if (Current != First) //Если текущий элемент - не первый, то
                         {
-                            Current.Prev.Next = Current.Next;
+                            Current.Prev.Next = Current.Next; //элементом, следующим за предыдущим, становится элемент следующий за текущим,
                         }
                         else
                         {
-                            First = Current.Next;
+                            First = Current.Next; //а если первый, то первым становится следующий за текущим.
                         }
-                        Current.Next.Prev = Current.Prev; //2
-                        tmp = Current.Next.Next;
+                        Current.Next.Prev = Current.Prev; //Предыдущим перед следующим становится предыдущий перед текущим.
+                        tmp = Current.Next.Next; //Временный элемент - следующий за следующим.
 
-                        Current.Next.Next = Current; //3
+                        Current.Next.Next = Current; //Следующий за следующим становится текущим.
 
-                        Current.Prev = Current.Next; //4
+                        Current.Prev = Current.Next; //Предыдущий перед текущим становится следующим за текущим
 
-                        Current.Next = tmp; //5
-                        if (Current.Next != null)
+                        Current.Next = tmp; //Следующему за текущим присваивается значение из временного.
+                        if (Current.Next != null) //Если следующий - не пустой, то
                         {
-                            Current.Next.Prev = Current; //6
+                            Current.Next.Prev = Current; //предыдущий перед следующим - текущий.
                         }
 
                     }
-                    if (!bSwapped)
+                    if (!bSwapped) //Если смена была, то
                     {
-                        Current = Current.Next;
+                        Current = Current.Next;//переходим к следующему элементу.
                     }
                 }
             }
