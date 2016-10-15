@@ -51,10 +51,10 @@ namespace DoublyLinkedListApp
                         DeleteByLastName(personsList);
                         break;
                     case ConsoleKey.D6:
-                        personsList.Sort();
+                        Sort(personsList);
                         break;
                     case ConsoleKey.NumPad6:
-                        personsList.Sort();
+                        Sort(personsList);
                         break;
                     case ConsoleKey.D7:
                         dir = Wtf(dir, personsList, true);
@@ -102,7 +102,7 @@ namespace DoublyLinkedListApp
                 pList.ReverseDisplay();
             }
             Console.WriteLine("\nDone. Press any key");
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
 
         //Добавть Person
@@ -200,11 +200,28 @@ namespace DoublyLinkedListApp
             string ln = Console.ReadLine();
             uint delco = pList.DelByLastName(ln);
             Console.WriteLine("Done. Удалений : {0}. Press any key", delco);
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
         
-        
-        //Записать в файл
+        //Сортировать
+        static public void Sort(DoublyLinkedList pList)
+        {
+            if (!pList.IsEmpty)
+            {
+                pList.Sort();
+                Console.Clear();
+                Console.WriteLine("Done. Press any key");
+                Console.ReadKey(true);
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Список пуст");
+                Console.ReadKey(true);
+            }
+            
+        }
+        //Записать в файл или считать из файла
         static public string Wtf(string dir, DoublyLinkedList pList, bool write)
         {
             //Не знаю, почему сделал интерфейс в этом методе на английском - захотелось.
@@ -254,7 +271,7 @@ namespace DoublyLinkedListApp
                             pList.ReadFromFile(path);
                         }
                         Console.WriteLine("\nDone. Press any key");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         return dir;
                         break;
                     case ConsoleKey.NumPad2:
@@ -279,18 +296,13 @@ namespace DoublyLinkedListApp
                             pList.ReadFromFile(path);
                         }
                         Console.WriteLine("\nDone. Press any key");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         return dir;
                         break;
                 }
             } while ((cki.Key != ConsoleKey.Escape) && (cki.Key != ConsoleKey.D3) && (cki.Key != ConsoleKey.NumPad3));
             return dir;
         }
-        /*//Считать из файла
-        static public string ReadFromFile(string dir, DoublyLinkedList pList)
-        {
-
-        }*/
     }
 }
 
