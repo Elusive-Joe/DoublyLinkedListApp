@@ -149,7 +149,7 @@ namespace DoublyLinkedListApp
         //вывести в прямом порядке
         public void Display()
         {
-            Console.Clear();
+            //Console.Clear();
             if (First == null)
             {
                 Console.WriteLine("Doubly Linked List is empty");
@@ -165,13 +165,13 @@ namespace DoublyLinkedListApp
                 count++;
                 Current = Current.Next;
             }
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         //вывести в обратном порядке
         public void ReverseDisplay()
         {
-            Console.Clear();
+            //Console.Clear();
             if (First == null)
             {
                 Console.WriteLine("Doubly Linked List is empty");
@@ -188,7 +188,7 @@ namespace DoublyLinkedListApp
                 count++;
                 Current = Current.Prev;
             }
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         //удалить элемент по индексу

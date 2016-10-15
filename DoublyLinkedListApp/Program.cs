@@ -21,16 +21,16 @@ namespace DoublyLinkedListApp
                 switch (cki.Key)
                 {
                     case ConsoleKey.D1:
-                        personsList.Display();
+                        Display(personsList, true);
                         break;
                     case ConsoleKey.NumPad1:
-                        personsList.Display();
+                        Display(personsList, true);
                         break;
                     case ConsoleKey.D2:
-                        personsList.ReverseDisplay();
+                        Display(personsList, false);
                         break;
                     case ConsoleKey.NumPad2:
-                        personsList.ReverseDisplay();
+                        Display(personsList, false);
                         break;
                     case ConsoleKey.D3:
                         AddPerson(personsList);
@@ -71,6 +71,7 @@ namespace DoublyLinkedListApp
                 }
             } while ((cki.Key != ConsoleKey.Escape) && (cki.Key != ConsoleKey.D9) && (cki.Key != ConsoleKey.NumPad9));
         }
+        
         //Нарисовать меню
         static public void DrawMenu()
         {
@@ -85,56 +86,84 @@ namespace DoublyLinkedListApp
             Console.WriteLine("8. Загрузка списка из файла");
             Console.WriteLine("9. Выход");
         }
-        
+       
+        //Вывести на консоль
+        static public void Display(DoublyLinkedList pList, bool order)
+        {
+            Console.Clear();
+            if (order)
+            {
+                Console.WriteLine("Вывод в прямом порядке:\n");
+                pList.Display();
+            }
+            else
+            {
+                Console.WriteLine("Вывод в обратном порядке:\n");
+                pList.ReverseDisplay();
+            }
+            Console.WriteLine("\nDone. Press any key");
+            Console.ReadKey();
+        }
+
         //Добавть Person
         static public void AddPerson(DoublyLinkedList personsList)
         {
             Console.Clear();
             Console.WriteLine("Добавление по индексу");
-
-            Console.Write("Индекс: ");
-            string str = Console.ReadLine();
-            uint ind;
-            while (!uint.TryParse(str, out ind))
+            ConsoleKeyInfo cki;
+            do
             {
-                Console.WriteLine("\nНеверный тип");
-                Console.Write("Индекс: ");
-                str = Console.ReadLine();
-            }
-
-            Console.Write("Фамилия: ");
-            string ln = Console.ReadLine();
-
-            Console.Write("Рост: ");
-            str = Console.ReadLine();
-            uint h;
-            while (!uint.TryParse(str, out h))
-            {
-                Console.WriteLine("\nНеверный тип");
-                Console.Write("Рост: ");
-                str = Console.ReadLine();
-            }
-
-            Console.Write("Дата рождения: ");
-            str = Console.ReadLine();
-            bool correct = false;
-            DateTime bd = new DateTime(1900, 1, 1);
-            while (!correct)
-            {
-                try
+                Console.Write("Индекс (от 1 до {0}: ", personsList.Count + 1);
+                string str = Console.ReadLine();
+                uint ind;
+                while (!uint.TryParse(str, out ind))
                 {
-                    bd = Convert.ToDateTime(str);
-                    correct = true;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("\n"+ex.Message);
-                    Console.Write("Дата рождения: ");
+                    Console.WriteLine("\nНеверный тип");
+                    Console.Write("Индекс: ");
                     str = Console.ReadLine();
                 }
-            }
+
+                Console.Write("Фамилия: ");
+                string ln = Console.ReadLine();
+
+                Console.Write("Рост: ");
+                str = Console.ReadLine();
+                uint h;
+                while (!uint.TryParse(str, out h))
+                {
+                    Console.WriteLine("\nНеверный тип");
+                    Console.Write("Рост: ");
+                    str = Console.ReadLine();
+                }
+
+                Console.Write("Дата рождения: ");
+                str = Console.ReadLine();
+                bool correct = false;
+                DateTime bd = new DateTime(1900, 1, 1);
+                while (!correct)
+                {
+                    try
+                    {
+                        bd = Convert.ToDateTime(str);
+                        correct = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("\n" + ex.Message);
+                        Console.Write("Дата рождения: ");
+                        str = Console.ReadLine();
+                    }
+                }
+
+                personsList.InsertByIndex(ln, h, bd, ind);
+
+                Console.WriteLine("Сделано. Ещё одного? (y/n)");
+                do
+                {
+                    cki = Console.ReadKey();
+                } while ((cki.Key!=ConsoleKey.Y)&&(cki.Key != ConsoleKey.N));
+            } while (cki.Key==ConsoleKey.Y);
             
-            personsList.InsertByIndex(ln, h, bd, ind);
         }
         
         //Удалить по номеру
@@ -142,10 +171,25 @@ namespace DoublyLinkedListApp
         {
             Console.Clear();
             Console.Write("Удаление по индексу: ");
-            uint ind = UInt32.Parse(Console.ReadLine());
-            pList.DelById(ind);
-            Console.WriteLine("Done. Press any key");
-            Console.ReadKey();
+            ConsoleKeyInfo cki;
+            do
+            {
+                Console.Write("Индекс (от 1 до {0}: ", pList.Count);
+                string str = Console.ReadLine();
+                uint ind;
+                while (!uint.TryParse(str, out ind))
+                {
+                    Console.WriteLine("\nНеверный тип");
+                    Console.Write("Индекс: ");
+                    str = Console.ReadLine();
+                }
+                pList.DelById(ind);
+                Console.WriteLine("Сделано. Ещё одного? (y/n)");
+                do
+                {
+                    cki = Console.ReadKey();
+                } while ((cki.Key != ConsoleKey.Y) && (cki.Key != ConsoleKey.N));
+            } while (cki.Key == ConsoleKey.Y);
         }
         
         //Удалить по фамилии
