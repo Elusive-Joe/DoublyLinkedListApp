@@ -8,14 +8,14 @@ namespace DoublyLinkedListApp
 {
     class Person
     {
-        public Person(string lastname, string height, string birthdate)
+        public Person(string lastname, uint height, DateTime birthdate)
         {
             LastName = lastname;
-            Height = Int32.Parse(height);
-            BirthDate = Convert.ToDateTime(birthdate);
+            Height = height;
+            BirthDate = birthdate;
         }
         public string LastName { get; set; }
-        public int Height { get; set; }
+        public uint Height { get; set; }
         public DateTime BirthDate { get; set; }
         public Person Prev { get; set; }
         public Person Next { get; set; }

@@ -85,21 +85,54 @@ namespace DoublyLinkedListApp
             Console.WriteLine("8. Загрузка списка из файла");
             Console.WriteLine("9. Выход");
         }
+        
         //Добавть Person
         static public void AddPerson(DoublyLinkedList personsList)
         {
             Console.Clear();
             Console.WriteLine("Добавление по индексу");
             Console.Write("Индекс: ");
-            uint ind = UInt32.Parse(Console.ReadLine());
+            string str = Console.ReadLine();
+            uint ind;
+            while (!uint.TryParse(str, out ind))
+            {
+                Console.WriteLine("\nНеверный тип");
+                Console.Write("Индекс: ");
+                str = Console.ReadLine();
+            }
             Console.Write("Фамилия: ");
             string ln = Console.ReadLine();
             Console.Write("Рост: ");
-            string h = Console.ReadLine();
+            str = Console.ReadLine();
+            uint h;
+            while (!uint.TryParse(str, out h))
+            {
+                Console.WriteLine("\nНеверный тип");
+                Console.Write("Рост: ");
+                str = Console.ReadLine();
+            }
             Console.Write("Дата рождения: ");
-            string bd = Console.ReadLine();
+            str = Console.ReadLine();
+            bool correct = false;
+            DateTime bd = new DateTime(1900, 1, 1);
+            while (!correct)
+            {
+                try
+                {
+                    bd = Convert.ToDateTime(str);
+                    correct = true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\n"+ex.Message);
+                    Console.Write("Дата рождения: ");
+                    str = Console.ReadLine();
+                }
+            }
+            
             personsList.InsertByIndex(ln, h, bd, ind);
         }
+        
         //Удалить по номеру
         static public void DeleteById(DoublyLinkedList pList)
         {
@@ -110,6 +143,7 @@ namespace DoublyLinkedListApp
             Console.WriteLine("Done. Press any key");
             Console.ReadKey();
         }
+        
         //Удалить по фамилии
         static public void DeleteByLastName(DoublyLinkedList pList)
         {
@@ -120,6 +154,7 @@ namespace DoublyLinkedListApp
             Console.WriteLine("Done. Удалений : {0}. Press any key", delco);
             Console.ReadKey();
         }
+        
         //Записать в файл
         static public string Wtf(string dir, DoublyLinkedList pList)
         {

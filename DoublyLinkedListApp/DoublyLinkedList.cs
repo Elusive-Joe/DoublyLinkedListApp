@@ -30,7 +30,7 @@ namespace DoublyLinkedListApp
         }
 
         //вставить по индексу
-        public void InsertByIndex(string ln, string h, string bd, uint index)
+        public void InsertByIndex(string ln, uint h, DateTime bd, uint index)
         {
             if (index < 1 || index > (Count + 1)) //вброс ошибки, если неправильный индекс
             {
@@ -63,7 +63,7 @@ namespace DoublyLinkedListApp
         }
 
         //Вставить в начало
-        public void Push_Front(string ln, string h, string bd)
+        public void Push_Front(string ln, uint h, DateTime bd)
         {
             Person newPerson = new Person(ln, h, bd);
 
@@ -101,7 +101,7 @@ namespace DoublyLinkedListApp
         }
 
         //Вставить в конец
-        public void Push_Back(string ln, string h, string bd)
+        public void Push_Back(string ln, uint h, DateTime bd)
         {
             Person newPerson = new Person(ln, h, bd);
             Current = GetLast();//Поиск последнего элемента
@@ -264,8 +264,8 @@ namespace DoublyLinkedListApp
                     uint count = 0;
                     uint type;
                     string ln = "";
-                    string h = "";
-                    string bd = "";
+                    uint h = 0;
+                    DateTime bd;
                     while ((line = sr.ReadLine()) != null)
                     {
                         count++;
@@ -276,10 +276,10 @@ namespace DoublyLinkedListApp
                                 ln = line;
                                 break;
                             case 2:
-                                h = line;
+                                h = uint.Parse(line);
                                 break;
                             case 0:
-                                bd = line;
+                                bd = Convert.ToDateTime(line);
                                 InsertByIndex(ln, h, bd, count / 3);
                                 break;
                         }
