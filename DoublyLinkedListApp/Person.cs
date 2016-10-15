@@ -14,6 +14,8 @@ namespace DoublyLinkedListApp
             Height = height;
             BirthDate = birthdate;
         }
+
+        //Resharper предлагает установить свойства только для чтения. А если захотим редактировать записи?
         public string LastName { get; set; }
         public uint Height { get; set; }
         public DateTime BirthDate { get; set; }

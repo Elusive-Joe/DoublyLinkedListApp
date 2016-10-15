@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DoublyLinkedListApp
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
@@ -73,7 +73,7 @@ namespace DoublyLinkedListApp
         }
         
         //Нарисовать меню
-        static public void DrawMenu()
+        private static void DrawMenu()
         {
             Console.Clear();
             Console.WriteLine("1. Вывести на экран все элементы двусвязного списка");
@@ -88,7 +88,7 @@ namespace DoublyLinkedListApp
         }
        
         //Вывести на консоль
-        static public void Display(DoublyLinkedList pList, bool order)
+        private static void Display(DoublyLinkedList pList, bool order)
         {
             Console.Clear();
             if (order)
@@ -106,7 +106,7 @@ namespace DoublyLinkedListApp
         }
 
         //Добавть Person
-        static public void AddPerson(DoublyLinkedList personsList)
+        private static void AddPerson(DoublyLinkedList personsList)
         {
             Console.Clear();
             Console.WriteLine("Добавление по индексу");
@@ -119,13 +119,13 @@ namespace DoublyLinkedListApp
                 {
                     Console.Write("\nИндекс (от 1 до {0}): ", personsList.Count + 1);
                     str = Console.ReadLine();
-                    while (!uint.TryParse(str, out ind))
+                    while (!uint.TryParse(str, out ind)) //должно быть число
                     {
                         Console.WriteLine("\nНеверный ввод");
                         Console.Write("Индекс: ");
                         str = Console.ReadLine();
                     }
-                } while ((ind<1)||(ind > personsList.Count +1));
+                } while ((ind<1)||(ind > personsList.Count +1)); //от 1 до размер списка+1
                 
                 Console.Write("Фамилия: ");
                 string ln = Console.ReadLine();
@@ -133,7 +133,7 @@ namespace DoublyLinkedListApp
                 Console.Write("Рост: ");
                 str = Console.ReadLine();
                 uint h;
-                while (!uint.TryParse(str, out h))
+                while (!uint.TryParse(str, out h)) //должно быть число
                 {
                     Console.WriteLine("\nНеверный тип");
                     Console.Write("Рост: ");
@@ -148,7 +148,7 @@ namespace DoublyLinkedListApp
                 {
                     try
                     {
-                        bd = Convert.ToDateTime(str);
+                        bd = Convert.ToDateTime(str); //попытка перевода строки в дату
                         correct = true;
                     }
                     catch (Exception ex)
@@ -171,35 +171,25 @@ namespace DoublyLinkedListApp
         }
         
         //Удалить по номеру
-        static public void DeleteById(DoublyLinkedList pList)
+        private static void DeleteById(DoublyLinkedList pList)
         {
             Console.Clear();
             Console.Write("Удаление по индексу: ");
             ConsoleKeyInfo cki;
             do
             {
-                string str;
                 uint ind;
                 do
                 {
                     Console.Write("\nИндекс (от 1 до {0}): ", pList.Count);
-                    str = Console.ReadLine();
+                    string str = Console.ReadLine();
                     while (!uint.TryParse(str, out ind))
                     {
-                        Console.WriteLine("\nНеверный ввод");
+                        Console.WriteLine("\nНеверный ввод");//проверяем, что это число,
                         Console.Write("Индекс: ");
                         str = Console.ReadLine();
                     }
-                } while ((ind < 1) || (ind > pList.Count));
-                /*Console.Write("\nИндекс (от 1 до {0}): ", pList.Count);
-                string str = Console.ReadLine();
-                uint ind;
-                while (!uint.TryParse(str, out ind))
-                {
-                    Console.WriteLine("\nНеверный тип");
-                    Console.Write("Индекс: ");
-                    str = Console.ReadLine();
-                }*/
+                } while ((ind < 1) || (ind > pList.Count));//не выходящее за размер списка.
                 pList.DelById(ind);
                 Console.WriteLine("\nСделано. Ещё одного? (y/n)");
                 do
@@ -210,7 +200,7 @@ namespace DoublyLinkedListApp
         }
         
         //Удалить по фамилии
-        static public void DeleteByLastName(DoublyLinkedList pList)
+        private static void DeleteByLastName(DoublyLinkedList pList)
         {
             Console.Clear();
             Console.Write("Удаление по фамилии: ");
@@ -221,7 +211,7 @@ namespace DoublyLinkedListApp
         }
         
         //Сортировать
-        static public void Sort(DoublyLinkedList pList)
+        private static void Sort(DoublyLinkedList pList)
         {
             if (!pList.IsEmpty)
             {
@@ -239,7 +229,7 @@ namespace DoublyLinkedListApp
             
         }
         //Записать в файл или считать из файла
-        static public string Wtf(string dir, DoublyLinkedList pList, bool write)
+        private static string Wtf(string dir, DoublyLinkedList pList, bool write)//true - пишем, false - читаем
         {
             //Не знаю, почему сделал интерфейс в этом методе на английском - захотелось.
             ConsoleKeyInfo cki;
@@ -290,7 +280,6 @@ namespace DoublyLinkedListApp
                         Console.WriteLine("\nDone. Press any key");
                         Console.ReadKey(true);
                         return dir;
-                        break;
                     case ConsoleKey.NumPad2:
                         Console.Write("\nEnter filename: ");
                         filename = Console.ReadLine();
@@ -315,7 +304,6 @@ namespace DoublyLinkedListApp
                         Console.WriteLine("\nDone. Press any key");
                         Console.ReadKey(true);
                         return dir;
-                        break;
                 }
             } while ((cki.Key != ConsoleKey.Escape) && (cki.Key != ConsoleKey.D3) && (cki.Key != ConsoleKey.NumPad3));
             return dir;

@@ -9,9 +9,9 @@ namespace DoublyLinkedListApp
 {
     class DoublyLinkedList
     {
-        public Person First { get; set; } //Первый
-        public Person Current { get; set; }//Текущий
-        public uint Count { get; set; } //Размерчик.
+        private Person First { get; set; } //Первый
+        private Person Current { get; set; }//Текущий
+        public uint Count { get; private set; } //Размерчик.
 
         //Конструктор
         public DoublyLinkedList()
@@ -21,13 +21,7 @@ namespace DoublyLinkedListApp
         }
 
         //проверка на пустоту
-        public bool IsEmpty
-        {
-            get
-            {
-                return Count == 0;
-            }
-        }
+        public bool IsEmpty => Count == 0;
 
         //вставить по индексу
         public void InsertByIndex(string ln, uint h, DateTime bd, uint index)
@@ -36,7 +30,7 @@ namespace DoublyLinkedListApp
             {
                 throw new InvalidOperationException();
             }
-            else if (index == 1) //если начало
+            if (index == 1) //если начало
             {
                 Push_Front(ln, h, bd);
             }
@@ -54,16 +48,19 @@ namespace DoublyLinkedListApp
                     count++;
                 }
                 Person newPerson = new Person(ln, h, bd); //создаем объект
-                Current.Prev.Next = newPerson;
-                newPerson.Prev = Current.Prev;
-                Current.Prev = newPerson;
-                newPerson.Next = Current;
+                if (Current != null)
+                {
+                    Current.Prev.Next = newPerson;
+                    newPerson.Prev = Current.Prev;
+                    Current.Prev = newPerson;
+                    newPerson.Next = Current;
+                }
                 Count++;
             }
         }
 
         //Вставить в начало
-        public void Push_Front(string ln, uint h, DateTime bd)
+        private void Push_Front(string ln, uint h, DateTime bd)
         {
             Person newPerson = new Person(ln, h, bd);
 
@@ -81,27 +78,22 @@ namespace DoublyLinkedListApp
         }
 
         //Удалить из начала
-        public Person Pop_Front()
+        private void Pop_Front()
         {
             if (First == null)
             {
                 throw new InvalidOperationException();
             }
-            else
+            if (First.Next != null)
             {
-                Person temp = First;
-                if (First.Next != null)
-                {
-                    First.Next.Prev = null;
-                }
-                First = First.Next;
-                Count--;
-                return temp;
+                First.Next.Prev = null;
             }
+            First = First.Next;
+            Count--;
         }
 
         //Вставить в конец
-        public void Push_Back(string ln, uint h, DateTime bd)
+        private void Push_Back(string ln, uint h, DateTime bd)
         {
             Person newPerson = new Person(ln, h, bd);
             Current = GetLast();//Поиск последнего элемента
@@ -112,22 +104,19 @@ namespace DoublyLinkedListApp
         }
 
         //Удалить последний элемент
-        public Person Pop_Back()
+        private void Pop_Back()
         {
             Current = GetLast();//Поиск последнего элемента
-            Person temp = Current;
             if (Current.Prev != null)
             {
                 Current.Prev.Next = null;
             }
             Current = Current.Prev;
             Count--;
-            return temp;
-
         }
 
         //Поиск последнего элемента
-        public Person GetLast()
+        private Person GetLast()
         {
             Current = First;
             while (Current.Next != null)
@@ -138,7 +127,7 @@ namespace DoublyLinkedListApp
         }
 
         //полностью очистить список
-        public void ClearList()
+        private void ClearList()
         {
             while (!IsEmpty)
             {
@@ -149,7 +138,6 @@ namespace DoublyLinkedListApp
         //вывести в прямом порядке
         public void Display()
         {
-            //Console.Clear();
             if (First == null)
             {
                 Console.WriteLine("Doubly Linked List is empty");
@@ -165,13 +153,11 @@ namespace DoublyLinkedListApp
                 count++;
                 Current = Current.Next;
             }
-            //Console.ReadKey();
         }
 
         //вывести в обратном порядке
         public void ReverseDisplay()
         {
-            //Console.Clear();
             if (First == null)
             {
                 Console.WriteLine("Doubly Linked List is empty");
@@ -188,17 +174,16 @@ namespace DoublyLinkedListApp
                 count++;
                 Current = Current.Prev;
             }
-            //Console.ReadKey();
         }
 
         //удалить элемент по индексу
         public void DelById(uint index)
-        { 
+        {
             if (index < 1 || index > Count)
             {
                 throw new InvalidOperationException();
             }
-            else if (index == 1)
+            if (index == 1)
             {
                 Pop_Front();
             }
@@ -215,8 +200,11 @@ namespace DoublyLinkedListApp
                     Current = Current.Next;
                     count++;
                 }
-                Current.Prev.Next = Current.Next;
-                Current.Next.Prev = Current.Prev;
+                if (Current != null)
+                {
+                    Current.Prev.Next = Current.Next;
+                    Current.Next.Prev = Current.Prev;
+                }
                 Count--;
             }
         }
@@ -254,7 +242,6 @@ namespace DoublyLinkedListApp
         //Считать из файла
         public void ReadFromFile(string path)
         {
-            //string path = "Resources\\theList.txt";
             ClearList();
             try
             {
@@ -262,14 +249,12 @@ namespace DoublyLinkedListApp
                 {
                     string line;
                     uint count = 0;
-                    uint type;
                     string ln = "";
                     uint h = 0;
-                    DateTime bd;
                     while ((line = sr.ReadLine()) != null)
                     {
                         count++;
-                        type = count % 3;
+                        uint type = count % 3;
                         switch (type)
                         {
                             case 1:
@@ -279,7 +264,7 @@ namespace DoublyLinkedListApp
                                 h = uint.Parse(line);
                                 break;
                             case 0:
-                                bd = Convert.ToDateTime(line);
+                                DateTime bd = Convert.ToDateTime(line);
                                 InsertByIndex(ln, h, bd, count / 3);
                                 break;
                         }
@@ -300,11 +285,8 @@ namespace DoublyLinkedListApp
             {
                 if (!File.Exists(path))
                 {
-                    using (FileStream fs = File.Create(path))
+                    using (File.Create(path))
                     {
-                        /*Byte[] info = new UTF8Encoding(true).GetBytes("This is some text in the file.");
-                        // Add some information to the file.
-                        fs.Write(info, 0, info.Length);*/
                     }
                 }
                 Current = First;
@@ -313,7 +295,7 @@ namespace DoublyLinkedListApp
                     string ln = Current.LastName;
                     string h = Current.Height.ToString();
                     string bd = Current.BirthDate.Day + "." + Current.BirthDate.Month + "." + Current.BirthDate.Year;
-                    using (StreamWriter sw = new StreamWriter(path, notFirst, System.Text.Encoding.Default))
+                    using (StreamWriter sw = new StreamWriter(path, notFirst, Encoding.Default))
                     {
                         sw.WriteLine(ln);
                         sw.WriteLine(h);
@@ -332,9 +314,7 @@ namespace DoublyLinkedListApp
         //Сортировка пузырьком. (По-моему, довольно трудно понять сортировку, если нет индексов)
         public void Sort()
         {
-            Person tmp;
             bool bNotSorted = true; //не сортирован
-            bool bSwapped; //была смена
             Current = First; //начинаем с начала
             while (bNotSorted) //пока список не сортирован
             {
@@ -342,8 +322,8 @@ namespace DoublyLinkedListApp
                 Current = First; //начинаем с начала
                 while (Current.Next != null) //пока не достигнем последнего элемента
                 {
-                    bSwapped = false; //ещё не меняли
-                    if (String.Compare(Current.LastName, Current.Next.LastName) > 0) //проверяем то поле, по которому сортируем
+                    bool bSwapped = false; //ещё не меняли
+                    if (String.Compare(Current.LastName, Current.Next.LastName) > 0) //проверяем то поле, по которому сортируем (понятно, что culture-specific, и хорошо)
                     {
                         bNotSorted = true; //оказывается, список не сортирован
                         bSwapped = true; //смена произошла, вернее, произойдёт ниже.
@@ -356,7 +336,7 @@ namespace DoublyLinkedListApp
                             First = Current.Next; //а если первый, то первым становится следующий за текущим.
                         }
                         Current.Next.Prev = Current.Prev; //Предыдущим перед следующим становится предыдущий перед текущим.
-                        tmp = Current.Next.Next; //Временный элемент - следующий за следующим.
+                        Person tmp = Current.Next.Next;
 
                         Current.Next.Next = Current; //Следующий за следующим становится текущим.
 
