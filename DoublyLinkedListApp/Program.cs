@@ -57,16 +57,16 @@ namespace DoublyLinkedListApp
                         personsList.Sort();
                         break;
                     case ConsoleKey.D7:
-                        dir = Wtf(dir, personsList);
+                        dir = Wtf(dir, personsList, true);
                         break;
                     case ConsoleKey.NumPad7:
-                        dir = Wtf(dir, personsList);
+                        dir = Wtf(dir, personsList, true);
                         break;
                     case ConsoleKey.D8:
-                        personsList.ReadFromFile();
+                        dir = Wtf(dir, personsList, false);
                         break;
                     case ConsoleKey.NumPad8:
-                        personsList.ReadFromFile();
+                        dir = Wtf(dir, personsList, false);
                         break;
                 }
             } while ((cki.Key != ConsoleKey.Escape) && (cki.Key != ConsoleKey.D9) && (cki.Key != ConsoleKey.NumPad9));
@@ -91,6 +91,7 @@ namespace DoublyLinkedListApp
         {
             Console.Clear();
             Console.WriteLine("Добавление по индексу");
+
             Console.Write("Индекс: ");
             string str = Console.ReadLine();
             uint ind;
@@ -100,8 +101,10 @@ namespace DoublyLinkedListApp
                 Console.Write("Индекс: ");
                 str = Console.ReadLine();
             }
+
             Console.Write("Фамилия: ");
             string ln = Console.ReadLine();
+
             Console.Write("Рост: ");
             str = Console.ReadLine();
             uint h;
@@ -111,6 +114,7 @@ namespace DoublyLinkedListApp
                 Console.Write("Рост: ");
                 str = Console.ReadLine();
             }
+
             Console.Write("Дата рождения: ");
             str = Console.ReadLine();
             bool correct = false;
@@ -155,8 +159,9 @@ namespace DoublyLinkedListApp
             Console.ReadKey();
         }
         
+        
         //Записать в файл
-        static public string Wtf(string dir, DoublyLinkedList pList)
+        static public string Wtf(string dir, DoublyLinkedList pList, bool write)
         {
             //Не знаю, почему сделал интерфейс в этом методе на английском - захотелось.
             ConsoleKeyInfo cki;
@@ -172,6 +177,7 @@ namespace DoublyLinkedListApp
                 Console.WriteLine("3. Back");
                 cki = Console.ReadKey(true);
                 string path;
+                string filename;
                 switch (cki.Key)
                 {
                     case ConsoleKey.D1:
@@ -184,16 +190,50 @@ namespace DoublyLinkedListApp
                         break;
                     case ConsoleKey.D2:
                         Console.Write("\nEnter filename: ");
-                        path = dir + Console.ReadLine();
-                        pList.WriteToFile(path);
+                        filename = Console.ReadLine();
+                        while (filename=="")
+                        {
+                            Console.Write("Please, enter filename: ");
+                            filename = Console.ReadLine();
+                        }
+                        if (!filename.EndsWith(".txt"))
+                        {
+                            filename += ".txt";
+                        }
+                        path = dir + filename;
+                        if (write)
+                        {
+                            pList.WriteToFile(path);
+                        }
+                        else
+                        {
+                            pList.ReadFromFile(path);
+                        }
                         Console.WriteLine("\nDone. Press any key");
                         Console.ReadKey();
                         return dir;
                         break;
                     case ConsoleKey.NumPad2:
                         Console.Write("\nEnter filename: ");
-                        path = dir + Console.ReadLine();
-                        pList.WriteToFile(path);
+                        filename = Console.ReadLine();
+                        while (filename == "")
+                        {
+                            Console.Write("Please, enter filename: ");
+                            filename = Console.ReadLine();
+                        }
+                        if (!filename.EndsWith(".txt"))
+                        {
+                            filename += ".txt";
+                        }
+                        path = dir + filename;
+                        if (write)
+                        {
+                            pList.WriteToFile(path);
+                        }
+                        else
+                        {
+                            pList.ReadFromFile(path);
+                        }
                         Console.WriteLine("\nDone. Press any key");
                         Console.ReadKey();
                         return dir;
@@ -202,6 +242,11 @@ namespace DoublyLinkedListApp
             } while ((cki.Key != ConsoleKey.Escape) && (cki.Key != ConsoleKey.D3) && (cki.Key != ConsoleKey.NumPad3));
             return dir;
         }
+        /*//Считать из файла
+        static public string ReadFromFile(string dir, DoublyLinkedList pList)
+        {
+
+        }*/
     }
 }
 

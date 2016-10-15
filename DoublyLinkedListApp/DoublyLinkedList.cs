@@ -252,9 +252,9 @@ namespace DoublyLinkedListApp
         }
 
         //Считать из файла
-        public void ReadFromFile()
+        public void ReadFromFile(string path)
         {
-            string path = "Resources\\theList.txt";
+            //string path = "Resources\\theList.txt";
             ClearList();
             try
             {
