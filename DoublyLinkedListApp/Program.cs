@@ -16,7 +16,7 @@ namespace DoublyLinkedListApp
             string dir = "";
             do
             {
-                DrowMenu();
+                DrawMenu();
                 cki = Console.ReadKey(true);
                 switch (cki.Key)
                 {
@@ -68,13 +68,11 @@ namespace DoublyLinkedListApp
                     case ConsoleKey.NumPad8:
                         personsList.ReadFromFile();
                         break;
-                        ;
-
                 }
             } while ((cki.Key != ConsoleKey.Escape) && (cki.Key != ConsoleKey.D9) && (cki.Key != ConsoleKey.NumPad9));
         }
-
-        static public void DrowMenu()
+        //Нарисовать меню
+        static public void DrawMenu()
         {
             Console.Clear();
             Console.WriteLine("1. Вывести на экран все элементы двусвязного списка");
@@ -87,7 +85,7 @@ namespace DoublyLinkedListApp
             Console.WriteLine("8. Загрузка списка из файла");
             Console.WriteLine("9. Выход");
         }
-
+        //Добавть Person
         static public void AddPerson(DoublyLinkedList personsList)
         {
             Console.Clear();
@@ -102,7 +100,7 @@ namespace DoublyLinkedListApp
             string bd = Console.ReadLine();
             personsList.InsertByIndex(ln, h, bd, ind);
         }
-
+        //Удалить по номеру
         static public void DeleteById(DoublyLinkedList pList)
         {
             Console.Clear();
@@ -112,7 +110,7 @@ namespace DoublyLinkedListApp
             Console.WriteLine("Done. Press any key");
             Console.ReadKey();
         }
-
+        //Удалить по фамилии
         static public void DeleteByLastName(DoublyLinkedList pList)
         {
             Console.Clear();
@@ -122,7 +120,7 @@ namespace DoublyLinkedListApp
             Console.WriteLine("Done. Удалений : {0}. Press any key", delco);
             Console.ReadKey();
         }
-
+        //Записать в файл
         static public string Wtf(string dir, DoublyLinkedList pList)
         {
             //Не знаю, почему сделал интерфейс в этом методе на английском - захотелось.
