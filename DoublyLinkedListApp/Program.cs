@@ -113,16 +113,20 @@ namespace DoublyLinkedListApp
             ConsoleKeyInfo cki;
             do
             {
-                Console.Write("Индекс (от 1 до {0}: ", personsList.Count + 1);
-                string str = Console.ReadLine();
+                string str;
                 uint ind;
-                while (!uint.TryParse(str, out ind))
+                do
                 {
-                    Console.WriteLine("\nНеверный тип");
-                    Console.Write("Индекс: ");
+                    Console.Write("\nИндекс (от 1 до {0}): ", personsList.Count + 1);
                     str = Console.ReadLine();
-                }
-
+                    while (!uint.TryParse(str, out ind))
+                    {
+                        Console.WriteLine("\nНеверный ввод");
+                        Console.Write("Индекс: ");
+                        str = Console.ReadLine();
+                    }
+                } while ((ind<1)||(ind > personsList.Count +1));
+                
                 Console.Write("Фамилия: ");
                 string ln = Console.ReadLine();
 
@@ -157,10 +161,10 @@ namespace DoublyLinkedListApp
 
                 personsList.InsertByIndex(ln, h, bd, ind);
 
-                Console.WriteLine("Сделано. Ещё одного? (y/n)");
+                Console.WriteLine("\nСделано. Ещё одного? (y/n)");
                 do
                 {
-                    cki = Console.ReadKey();
+                    cki = Console.ReadKey(true);
                 } while ((cki.Key!=ConsoleKey.Y)&&(cki.Key != ConsoleKey.N));
             } while (cki.Key==ConsoleKey.Y);
             
@@ -174,7 +178,20 @@ namespace DoublyLinkedListApp
             ConsoleKeyInfo cki;
             do
             {
-                Console.Write("Индекс (от 1 до {0}: ", pList.Count);
+                string str;
+                uint ind;
+                do
+                {
+                    Console.Write("\nИндекс (от 1 до {0}): ", pList.Count);
+                    str = Console.ReadLine();
+                    while (!uint.TryParse(str, out ind))
+                    {
+                        Console.WriteLine("\nНеверный ввод");
+                        Console.Write("Индекс: ");
+                        str = Console.ReadLine();
+                    }
+                } while ((ind < 1) || (ind > pList.Count));
+                /*Console.Write("\nИндекс (от 1 до {0}): ", pList.Count);
                 string str = Console.ReadLine();
                 uint ind;
                 while (!uint.TryParse(str, out ind))
@@ -182,9 +199,9 @@ namespace DoublyLinkedListApp
                     Console.WriteLine("\nНеверный тип");
                     Console.Write("Индекс: ");
                     str = Console.ReadLine();
-                }
+                }*/
                 pList.DelById(ind);
-                Console.WriteLine("Сделано. Ещё одного? (y/n)");
+                Console.WriteLine("\nСделано. Ещё одного? (y/n)");
                 do
                 {
                     cki = Console.ReadKey();
@@ -243,11 +260,11 @@ namespace DoublyLinkedListApp
                 {
                     case ConsoleKey.D1:
                         Console.Write("\nEnter the path to an existing directory: ");
-                        dir = Console.ReadLine();
+                        dir = Console.ReadLine()+"\\";
                         break;
                     case ConsoleKey.NumPad1:
                         Console.Write("\nEnter the path to an existing directory: ");
-                        dir = Console.ReadLine();
+                        dir = Console.ReadLine()+"\\";
                         break;
                     case ConsoleKey.D2:
                         Console.Write("\nEnter filename: ");
